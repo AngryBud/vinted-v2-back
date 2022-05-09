@@ -14,6 +14,7 @@ app.use(formidableMiddleware());
 app.use(morgan("dev"));
 app.use(userRoutes);
 app.use(offerRoutes);
+app.use(cors());
 
 // var corsOptions = {
 //   origin: 'http://localhost:3000',
