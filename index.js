@@ -17,7 +17,7 @@ app.use(offerRoutes);
 
 
 var corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'http://localhost:3000/',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 app.use(cors(corsOptions));
@@ -40,7 +40,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 
 app.get("/", (req,res) => {
-              res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+              res.header("Access-Control-Allow-Origin", "*");
               res.status(200).json("Bienvenue sur l'api vinted");});
 
 app.all("*", (req,res) => {res.status(404).json("Page not found");});
