@@ -4,7 +4,7 @@ const formidableMiddleware = require("express-formidable");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cloudinary = require("cloudinary").v2;
-// const cors = require("cors");
+const cors = require("cors");
 const app = express();
 const userRoutes = require("./routes/user");
 const offerRoutes = require("./routes/offer");
@@ -15,13 +15,14 @@ app.use(morgan("dev"));
 app.use(userRoutes);
 app.use(offerRoutes);
 
-var corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+// var corsOptions = {
+//   origin: 'http://localhost:3000',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// }
 
-// app.use(cors(corsOptions));
-
+app.use(cors({
+  origin: ['http://localhost:3000/']
+}));
 
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
