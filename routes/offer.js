@@ -139,7 +139,7 @@ router.get("/offers", async(req,res)=>{
         .skip((pages - 1) * limited)
         .limit(limited);
         const count = await Offer.countDocuments(filters);
-    
+        
         return res.json({count: count,offers: filtered,});
         }catch (error) {
             res.status(400).json({ message: error.message });

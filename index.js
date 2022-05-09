@@ -4,7 +4,7 @@ const formidableMiddleware = require("express-formidable");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cloudinary = require("cloudinary").v2;
-const cors = require("cors");
+// const cors = require("cors");
 const app = express();
 const userRoutes = require("./routes/user");
 const offerRoutes = require("./routes/offer");
@@ -16,11 +16,11 @@ app.use(userRoutes);
 app.use(offerRoutes);
 
 
-var corsOptions = {
-  origin: 'http://localhost:3000/',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-app.use(cors(corsOptions));
+// var corsOptions = {
+//   origin: 'http://localhost:3000/',
+//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+// }
+// app.use(cors(corsOptions));
 // app.use(function(req, res, next) {
 //   res.header("Access-Control-Allow-Origin", "*");
 //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -40,7 +40,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 
 app.get("/", (req,res) => {
-              res.header("Access-Control-Allow-Origin", "*");
+              
               res.status(200).json("Bienvenue sur l'api vinted");});
 
 app.all("*", (req,res) => {res.status(404).json("Page not found");});
