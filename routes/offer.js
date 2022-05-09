@@ -15,14 +15,28 @@ cloudinary.config({
 
 router.post("/offer/publish",validateToken, async(req,res) =>{
     try{
-        const {title,description, price, brand, size, condition, color,city} = req.fields;
+        const {title,description, price, brand, size, condition, color,city, picture} = req.fields;
+        if (!title || !description || !price || !brand || !size || !condition || !color || !city)
+                res.status(400).json("Remplissez tous les champs");
+        // console.log("title", title);
+        // console.log("descr", description);
+        // console.log("price", price);
+        // console.log("brand", brand);
+        // console.log("size", size);
+        // console.log("condition", condition);
+        // console.log("color", color);
+        // console.log("city", city);
+        // console.log(req.fields.image);
+        // console.log(req.fields.title);
+        console.log(req.files.picture.path);
+        
         if (title.length > 50)
             return res.status(400).json("Title is too long");
         else if (description.length > 500)
             return res.status(400).json("Description is too long");
         else if (Number(price) > 100000)
             return res.status(400).json("Price too high");
-        //const ownerExist = await User.findOne({token: req.headers.authorization.replace("Bearer ", "")})
+        const ownerExist = await User.findOne({token: req.headers.authorization.replace("Bearer ", "")})
         const newOffer = new Offer ({
             product_name: title,
             product_description: description,
@@ -34,15 +48,22 @@ router.post("/offer/publish",validateToken, async(req,res) =>{
                 {COLOR: color},
                 {CITY: city}
             ],
+
             owner: req.user//ownerExist,
+
         });
-        //if (req.fields.picture){
-        const picToUpload = req.files.picture.path;
-        const result = await cloudinary.uploader.upload(picToUpload, {public_id: `${req.fields.title} - ${newOffer._id}`,folder: "vinted/offers"});
-        newOffer.product_image = result;//{secure_url: result.secure_url};// changer avec result;
-        //}
+        // console.log("req.fields.picture :: :",req.fields.picture);
+        if (req.files.picture){
+            console.log("on a une image");
+            const picToUpload = req.files.picture.path;
+            const result = await cloudinary.uploader.upload(picToUpload, {public_id: `${req.fields.title} - ${newOffer._id}`,folder: "vinted/offers"});
+            newOffer.product_image = result;//{secure_url: result.secure_url};// changer avec result;
+        }
+        // console.log("product_image::: ",newOffer.product_image);
         await newOffer.save();
-        return res.status(200).json({message: 'Offer successfully created !'}, newOffer);
+        return res.status(200).json(newOffer);
+        // return res.json(newOffer);
+        // return res.json(req.fields);
     }catch(error){
         res.status(400).json(error.message);
     }

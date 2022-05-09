@@ -9,11 +9,13 @@ const app = express();
 const userRoutes = require("./routes/user");
 const offerRoutes = require("./routes/offer");
 
+app.use(express.json());
 app.use(formidableMiddleware());
 app.use(morgan("dev"));
 app.use(userRoutes);
 app.use(offerRoutes);
 app.use(cors());
+
 
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -30,4 +32,4 @@ app.get("/", (req,res) => {res.status(200).json("Bienvenue sur l'api vinted");})
 
 app.all("*", (req,res) => {res.status(404).json("Page not found");});
 
-app.listen(process.env.PORT, () => {console.log("Server started");});
+app.listen(process.env.PORT || 3000, () => {console.log("Server started");});
