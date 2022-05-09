@@ -4,7 +4,7 @@ const formidableMiddleware = require("express-formidable");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cloudinary = require("cloudinary").v2;
-const cors = require("cors");
+// const cors = require("cors");
 const app = express();
 const userRoutes = require("./routes/user");
 const offerRoutes = require("./routes/offer");
@@ -20,7 +20,7 @@ var corsOptions = {
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 
 mongoose.connect(process.env.MONGODB_URI, {
@@ -38,7 +38,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 // }
 
 
-app.get("/", cors(corsOptions), (req,res) => {res.status(200).json("Bienvenue sur l'api vinted");});
+app.get("/", (req,res) => {res.status(200).json("Bienvenue sur l'api vinted");});
 
 app.all("*", (req,res) => {res.status(404).json("Page not found");});
 
