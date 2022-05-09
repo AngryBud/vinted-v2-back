@@ -9,7 +9,7 @@ const app = express();
 const userRoutes = require("./routes/user");
 const offerRoutes = require("./routes/offer");
 
-app.use(express.json());
+app.use(express());
 app.use(formidableMiddleware());
 app.use(morgan("dev"));
 app.use(userRoutes);
@@ -20,9 +20,11 @@ app.use(offerRoutes);
 //   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 // }
 
-app.use(cors({
-  origin: ['http://localhost:3000/']
-}));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -33,10 +35,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true
 // });
-// var corsOptions = {
-//   origin: 'http://localhost:3000',
-//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-// }
+
 
 
 app.get("/", (req,res) => {res.status(200).json("Bienvenue sur l'api vinted");});
