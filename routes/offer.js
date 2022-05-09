@@ -13,7 +13,7 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
 })
 
-router.post("/offer/publish",validateToken, async(req,res) =>{
+router.post("/offer/publish",cors(corsOptions),validateToken, async(req,res) =>{
     try{
         const {title,description, price, brand, size, condition, color,city, picture} = req.fields;
         if (!title || !description || !price || !brand || !size || !condition || !color || !city)
