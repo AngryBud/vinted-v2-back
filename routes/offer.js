@@ -12,12 +12,9 @@ cloudinary.config({
     api_key: process.env.API_KEY,
     api_secret: process.env.API_SECRET
 })
-var corsOptions = {
-    origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-  }
 
-router.post("/offer/publish",cors(corsOptions),validateToken, async(req,res) =>{
+
+router.post("/offer/publish",validateToken, async(req,res) =>{
     try{
         const {title,description, price, brand, size, condition, color,city, picture} = req.fields;
         if (!title || !description || !price || !brand || !size || !condition || !color || !city)
