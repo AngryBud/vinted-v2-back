@@ -4,7 +4,7 @@ const formidableMiddleware = require("express-formidable");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cloudinary = require("cloudinary").v2;
-const cors = require("cors");
+// const cors = require("cors");
 const app = express();
 const userRoutes = require("./routes/user");
 const offerRoutes = require("./routes/offer");
@@ -14,7 +14,7 @@ app.use(formidableMiddleware());
 app.use(morgan("dev"));
 app.use(userRoutes);
 app.use(offerRoutes);
-app.use(cors());
+// app.use(cors());
 
 
 mongoose.connect(process.env.MONGODB_URI, {
