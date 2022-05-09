@@ -14,18 +14,18 @@ app.use(formidableMiddleware());
 app.use(morgan("dev"));
 app.use(userRoutes);
 app.use(offerRoutes);
-app.use(cors());
 
-// var corsOptions = {
-//   origin: 'http://localhost:3000',
-//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-// }
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions));
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
@@ -39,7 +39,9 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 
 
-app.get("/", (req,res) => {res.status(200).json("Bienvenue sur l'api vinted");});
+app.get("/", (req,res) => {
+              res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+              res.status(200).json("Bienvenue sur l'api vinted");});
 
 app.all("*", (req,res) => {res.status(404).json("Page not found");});
 
