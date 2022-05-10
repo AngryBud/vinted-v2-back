@@ -20,16 +20,16 @@ router.post("/offer/publish",validateToken, async(req,res) =>{
         const {title,description, price, brand, size, condition, color,city} = req.fields;
         if (!title || !description || !price || !brand || !size || !condition || !color || !city)
                 res.status(400).json("Remplissez tous les champs");
-        // console.log("title", title);
-        // console.log("descr", description);
-        // console.log("price", price);
-        // console.log("brand", brand);
-        // console.log("size", size);
-        // console.log("condition", condition);
-        // console.log("color", color);
-        // console.log("city", city);
-        // console.log(req.fields.image);
-        // console.log(req.fields.title);
+        console.log("title", title);
+        console.log("descr", description);
+        console.log("price", price);
+        console.log("brand", brand);
+        console.log("size", size);
+        console.log("condition", condition);
+        console.log("color", color);
+        console.log("city", city);
+        console.log(req.fields.image);
+        console.log(req.fields.title);
         console.log(req.files.picture.path);
         
         if (title.length > 50)
@@ -134,7 +134,7 @@ router.get("/offers", async(req,res)=>{
         if (req.query.limit)
             limited = Number(req.query.limit);
         else
-            limited = 3;
+            limited = 5;
 
         const filtered = await Offer.find(filters)//.populate("owner")
         .sort(sorted)
@@ -156,5 +156,25 @@ router.get("/offer/:id", async(req,res) =>{
         res.status(400).json({ message: error.message });
     }
 })
+
+router.post("/pay", async (req, res) => {
+    // Réception du token créer via l'API Stripe depuis le Frontend
+    const stripeToken = req.fields.stripeToken;
+    // Créer la transaction
+    const response = await stripe.charges.create({
+      amount: 2000,
+      currency: "eur",
+      description: "La description de l'objet acheté",
+      // On envoie ici le token
+      source: stripeToken,
+    });
+    console.log(response.status);
+  
+    // TODO
+    // Sauvegarder la transaction dans une BDD MongoDB
+  
+    res.json(response);
+  });
+  
 
 module.exports = router;
