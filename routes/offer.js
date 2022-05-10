@@ -54,6 +54,7 @@ router.post("/offer/publish",validateToken, async(req,res) =>{
             owner: req.user//ownerExist,
 
         });
+        console.log(newOffer);
         // console.log("req.fields.picture :: :",req.fields.picture);
         if (req.files.picture){
             console.log("on a une image");
