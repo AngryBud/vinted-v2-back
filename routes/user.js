@@ -9,13 +9,13 @@ const User = require("../models/User");
 const Offer = require("../models/Offer");
 
 router.post("/user/signup", async(req,res) =>{
-    console.log(req.fields);
+    console.log("req.fields ::: ",req.fields);
     try{
         // const picToUpload = req.files.avatar.path;
         // const result = await cloudinary.uploader.upload(picToUpload, {folder: "vinted/users"});
         const alreadyMail = await User.findOne({email: req.fields.email});
         // console.log("alreadyMail:::::::", alreadyMail);
-        console.log("User.length :::::::", User.length );
+        // console.log("User.length :::::::", User.length );
         const alreadyUsername = await User.findOne({account: {username: req.fields.username}});
         console.log("email ::::::: ",req.fields.email);
         if (alreadyMail)
@@ -33,7 +33,7 @@ router.post("/user/signup", async(req,res) =>{
                 email: req.fields.email,
                 account: {
                     username: req.fields.username,
-                    avatar: result.secure_url
+                    // avatar: result.secure_url
                 },
                 newsletter: req.fields.newsletter,
                 token: token,
@@ -52,7 +52,7 @@ router.post("/user/signup", async(req,res) =>{
             return res.status(200).json(ret);
         }
     }catch(error){
-        return res.status(400).json("Ta mere la pute");
+        return res.status(400).json({error: {message: error.message}});
         // res.status(400).json({error: {message: error.message}});
     }
 })
