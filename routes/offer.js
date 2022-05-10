@@ -160,21 +160,25 @@ router.get("/offer/:id", async(req,res) =>{
 
 router.post("/payement", async (req, res) => {
     // Réception du token créer via l'API Stripe depuis le Frontend
-    const stripeToken = req.fields.stripeToken;
-    // Créer la transaction
-    const response = await stripe.charges.create({
-      amount: 2000,
-      currency: "eur",
-      description: "La description de l'objet acheté",
-      // On envoie ici le token
-      source: stripeToken,
-    });
-    console.log(response.status);
+    try{
+        const stripeToken = req.fields.stripeToken;
+        // Créer la transaction
+        const response = await stripe.charges.create({
+          amount: req.fields.price,
+          currency: "eur",
+          description: req.fields.description,
+          // On envoie ici le token
+          source: stripeToken,
+        });
+        console.log(response.status);
   
     // TODO
     // Sauvegarder la transaction dans une BDD MongoDB
   
-    res.json(response);
+        res.statut(200).json(response);
+    }catch(error){
+        res.status(400).json({message: error.message})
+    }
   });
   
 
