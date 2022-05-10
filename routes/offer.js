@@ -16,7 +16,7 @@ cloudinary.config({
 
 router.post("/offer/publish",validateToken, async(req,res) =>{
     try{
-        const {title,description, price, brand, size, condition, color,city, picture} = req.fields;
+        const {title,description, price, brand, size, condition, color,city} = req.fields;
         if (!title || !description || !price || !brand || !size || !condition || !color || !city)
                 res.status(400).json("Remplissez tous les champs");
         // console.log("title", title);
