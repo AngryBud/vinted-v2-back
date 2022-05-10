@@ -175,7 +175,7 @@ router.post("/payement", async (req, res) => {
     // TODO
     // Sauvegarder la transaction dans une BDD MongoDB
   
-        res.statut(200).json(response);
+        res.status(200).json(response);
     }catch(error){
         res.status(400).json({message: error.message})
     }
