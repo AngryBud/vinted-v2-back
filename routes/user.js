@@ -9,7 +9,7 @@ const User = require("../models/User");
 const Offer = require("../models/Offer");
 
 router.post("/user/signup", async(req,res) =>{
-    console.log("req.fields ::: ",req.fields);
+    // console.log("req.fields ::: ",req.fields);
     try{
         // const picToUpload = req.files.avatar.path;
         // const result = await cloudinary.uploader.upload(picToUpload, {folder: "vinted/users"});
@@ -17,7 +17,7 @@ router.post("/user/signup", async(req,res) =>{
         // console.log("alreadyMail:::::::", alreadyMail);
         // console.log("User.length :::::::", User.length );
         const alreadyUsername = await User.findOne({account: {username: req.fields.username}});
-        console.log("email ::::::: ",req.fields.email);
+        // console.log("email ::::::: ",req.fields.email);
         if (alreadyMail)
             return res.status(400).json("This mail already exist");
         else if (req.fields.email.indexOf("@") === -1)
@@ -25,7 +25,7 @@ router.post("/user/signup", async(req,res) =>{
         else if (alreadyUsername || req.fields.username === undefined)
             return res.status(400).json("This username already exist or is missing");
         else{
-            console.log("qaaaaaaaaaa");
+            // console.log("qaaaaaaaaaa");
             const salt = uid2(32);
             const hash = SHA256(req.fields.password + salt).toString(encBase64);
             const token = uid2(32);
@@ -48,7 +48,6 @@ router.post("/user/signup", async(req,res) =>{
                         username: newAccount.account.username,
                     statut: "Sign up successful"
                 }}
-            console.log("ici tes morts");
             return res.status(200).json(ret);
         }
     }catch(error){
