@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const Offer = require("../models/Offer");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 //const mongoose = require("mongoose");
 const validateToken = require("../middlewares/validateToken");
 const cloudinary = require("cloudinary").v2;
@@ -157,7 +158,7 @@ router.get("/offer/:id", async(req,res) =>{
     }
 })
 
-router.post("/pay", async (req, res) => {
+router.post("/payement", async (req, res) => {
     // Réception du token créer via l'API Stripe depuis le Frontend
     const stripeToken = req.fields.stripeToken;
     // Créer la transaction
